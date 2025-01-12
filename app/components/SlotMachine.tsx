@@ -95,7 +95,11 @@ export default function SlotMachine() {
         {isSpinning ? 'Dönüyor...' : 'Çevir (10 puan)'}
       </button>
 
-      {message && <div className={styles.message}>{message}</div>}
+      {message && (
+        <div className={`${styles.message} ${won ? styles.win : ''}`}>
+          {message}
+        </div>
+      )}
     </div>
   );
 } 
