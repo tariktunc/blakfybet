@@ -1,75 +1,191 @@
-:root {
-  --primary: #6366f1;      /* Ana renk - Indigo */
-  --primary-dark: #4f46e5; /* Koyu indigo - hover durumları için */
-  --success: #22c55e;      /* Başarı rengi - Yeşil */
-  --background: #f8fafc;   /* Arka plan - Açık gri */
-  --surface: #ffffff;      /* Yüzey rengi - Beyaz */
-  --text-primary: #1e293b; /* Ana metin rengi - Koyu slate */
-  --text-secondary: #64748b;/* İkincil metin rengi - Slate */
-  --border: #e2e8f0;       /* Kenarlık rengi - Slate */
-}
-
 .container {
+  --primary: #ffd700;      /* Altın rengi */
+  --primary-dark: #ffc400; /* Koyu altın */
+  --success: #32cd32;      /* Parlak yeşil */
+  --background: #1a0f2e;   /* Koyu mor arka plan */
+  --surface: #2d1b4e;      /* Slot makinesi gövdesi */
+  --text-primary: #ffd700; /* Altın rengi metin */
+  --text-secondary: #b19cd9;/* Açık mor metin */
+  --border: #4a2b7d;       /* Mor kenarlık */
+  --slot-frame: #8b4513;   /* Kahverengi çerçeve */
+  --slot-inner: #000000;   /* Slot iç kısmı */
+  --chrome: #c0c0c0;       /* Krom detaylar */
+  --neon-glow: 0 0 20px rgba(255, 215, 0, 0.5); /* Altın parıltı */
+
   max-width: 600px;
   margin: 2rem auto;
   padding: 2rem;
   text-align: center;
-  background: var(--surface);
+  background: linear-gradient(145deg, var(--surface), #231439);
   border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .title {
   color: var(--text-primary);
   margin-bottom: 1rem;
   font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 .score {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-weight: 500;
 }
 
 .slotMachine {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   justify-content: center;
   margin: 2rem 0;
-  padding: 1.5rem;
-  background: var(--background);
+  padding: 2rem;
+  background: linear-gradient(145deg, var(--slot-frame), #6b3410);
   border-radius: 1rem;
-  border: 2px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 0 30px rgba(0, 0, 0, 0.7),
+    0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .reel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  position: relative;
+  width: 100px;
+  height: 300px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.9),
+    var(--slot-inner) 20%,
+    var(--slot-inner) 80%,
+    rgba(0, 0, 0, 0.9)
+  );
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 0 15px rgba(0, 0, 0, 0.9),
+    inset 0 0 5px rgba(255, 215, 0, 0.1);
+  padding: 2px;
+}
+
+.reelWindow {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border: 3px solid var(--slot-frame);
+  border-radius: 0.5rem;
+}
+
+.centerLine {
+  position: absolute;
+  top: 50%;
+  left: -2px;
+  right: -2px;
+  height: 100px;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  border: none;
+  /* Çift çizgi efekti */
+  background: linear-gradient(
+    to bottom,
+    transparent calc(50% - 2px),
+    var(--primary) calc(50% - 2px),
+    var(--primary) calc(50% - 1px),
+    rgba(255, 215, 0, 0.2) calc(50% - 1px),
+    rgba(255, 215, 0, 0.2) calc(50% + 1px),
+    var(--primary) calc(50% + 1px),
+    var(--primary) calc(50% + 2px),
+    transparent calc(50% + 2px)
+  );
+  /* Parlama efekti */
+  box-shadow: 
+    0 0 10px rgba(255, 215, 0, 0.2),
+    inset 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+.symbolsContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
 }
 
 .symbol {
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
-  background: var(--surface);
-  border-radius: 0.75rem;
-  border: 2px solid var(--border);
-  transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 3rem;
+  background: white;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.symbol:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.1);
+.symbol.center {
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  box-shadow: 
+    0 0 15px rgba(255, 215, 0, 0.3),
+    inset 0 0 10px rgba(255, 215, 0, 0.2);
+  border: 2px solid var(--primary);
+  transform: scale(1.05);
+  z-index: 1;
 }
 
+.symbol.hidden {
+  opacity: 0; /* Sembolleri görünmez yap */
+  transition: opacity 0.3s ease; /* Geçiş efekti */
+}
+
+/* Sembollerin görünümünü dönerken gizle */
 .spinning .symbol {
-  animation: spin 0.2s linear infinite;
-  background: var(--background);
+  opacity: 0; /* Dönme sırasında sembolleri gizle */
+}
+
+.spinning .symbolsContainer {
+  animation: spin 0.3s linear infinite;
+}
+
+.stopping .symbolsContainer {
+  animation: stopSpin 0.8s ease-out forwards;
+}
+
+@keyframes spin {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100px);
+  }
+}
+
+@keyframes stopSpin {
+  0% {
+    transform: translateY(var(--start-position));
+    opacity: 0; /* Başlangıçta görünmez */
+  }
+  100% {
+    transform: translateY(var(--stop-position));
+    opacity: 1; /* Durduğunda görünür */
+  }
+}
+
+/* Her makara için farklı dönüş hızları */
+.spinning .reel:nth-child(1) .symbolsContainer {
+  animation-duration: 0.4s;
+}
+
+.spinning .reel:nth-child(2) .symbolsContainer {
+  animation-duration: 0.45s;
+}
+
+.spinning .reel:nth-child(3) .symbolsContainer {
+  animation-duration: 0.5s;
 }
 
 .spinButton {
@@ -78,27 +194,25 @@
   background: var(--primary);
   color: white;
   border: none;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-weight: 500;
-  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+  position: relative;
+  z-index: 2;
 }
 
 .spinButton:hover:not(:disabled) {
   background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
 }
 
 .spinButton:disabled {
-  background: var(--text-secondary);
+  background: #cccccc;
   cursor: not-allowed;
-  opacity: 0.7;
 }
 
 .message {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   font-size: 1.2rem;
   color: var(--text-secondary);
   padding: 0.75rem;
@@ -109,16 +223,7 @@
 
 .message.win {
   color: var(--success);
-  background: rgba(34, 197, 94, 0.1);
-}
-
-@keyframes spin {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
+  animation: winPulse 1.5s infinite;
 }
 
 @keyframes fadeIn {
@@ -129,6 +234,15 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes winPulse {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--success);
+  }
+  50% {
+    text-shadow: 0 0 20px var(--success);
   }
 }
 
@@ -149,4 +263,26 @@
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
   }
+}
+
+.pointAdder {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.addButton {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.addButton:hover {
+  background: var(--primary-dark);
 } 
